@@ -13,7 +13,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
-    """Create User class inside database"""
+    """Create User instance table inside database"""
     id = db.Column(db.Integer, priery_key=True)
     user_name = db.Column(db.string(20), unique=True, nullable=False)
     email = db.Column(db.string(120), unique=True, nulable=False)
@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
         return ("User('{}','{}')".format(self.username, self.email))
 
 class Comment(db.Model):
-    """Create new comment instance and return comment title and date posted"""
+    """Create new comment instance table and return comment title and date posted"""
 
     id = db.Column(db.Integer, primary_key = True)
     date_posted = db.Column(db.DateTime,
@@ -44,7 +44,7 @@ class Comment(db.Model):
         return ("Comment('{}','{}')".format(self.title, self.date_posted))
 
 class Product(db.Model):
-    """Create product instance and return information about the product"""
+    """Create product instance table and return information about it"""
 
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(100), nullable = False)
@@ -61,10 +61,35 @@ class Product(db.Model):
                                                  self.price, self.image_file))
 
 class Category(db.Model):
-    """Create product category instance and return informaion about category"""
+    """Create product category instance table and return informaion about category"""
 
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
     products = db.relationship('Product', backref='type', lazy = True)
     def __repr__(self):
         return ("Category('{}')".format(self.name))
+
+class CartItem(db.Model):
+    """Creates Cart item instance table and return information about cart items"""
+
+    id = db.Column(db.Integer, primary_key = True)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable = False)
+    quantity = db.Column(db.Integer, nullable = False)
+    infor_id = db.Column(db.Integer, db.ForeignKey('infor.id'))
+    def __repr__(self):
+        return ("CartItem('{}')".format(self.quantity))
+
+class Infor(db.Model):
+    """Creates product Information instance table and return information about it"""
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(100), nullable = False)
+    address = db.Column(db.String(100), nullable = False)
+    country = db.Column(db.String(100), nullable = False)
+    city = db.Column(db.String(100), nullable = False)
+    postcode = db.Column(db.String(100), nullable = False)
+    phone = db.Column(db.String(100), nullable = False)
+    cartitems = db.relationship("CartItem", backref="cart", lazy = 'dynamic')
+    order_date = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    total_price = db.Column(db.Integer, nullable = False)
+    def __repr__(self):
+        return ("Infor('{}','{}','{}')".format(self.name, self.address, self.phone))
