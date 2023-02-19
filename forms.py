@@ -10,7 +10,12 @@ class RegistrationForm(FlaskForm):
     """Create Registration flask form"""
     username = StringField('Username', validators=[DataRequired(), Length(min = 2, max = 20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(),
+        length(min=8, message='Password must be at least 8 characters long'),
+        Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])',
+            message='Password must contain at least one lowercase letter,
+            one uppercase letter, one digit, and one special character')])
+
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
@@ -26,28 +31,28 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('Hey! This email is taken. Please change the email!')
 
-    def validate_password(self, password):
-        """Ensure that the password contains at least one uppercase letter,
-        one lowercase letter, one digit, and one special character."""
-        upper = False
-        lower = False
-        digit = False
-        special = False
+ #   def validate_password(self, password):
+ #       """Ensure that the password contains at least one uppercase letter,
+ #       one lowercase letter, one digit, and one special character."""
+ #       upper = False
+ #       lower = False
+ #       digit = False
+ #       special = False
 
-        for char in password.data:
-            if char.isupper():
-                upper = True
-            elif char.islower():
-                lower = True
-            elif char.isdigit():
-                digit = True
-            else:
-                special = True
+ #       for char in password.data:
+ #           if char.isupper():
+ #               upper = True
+ #           elif char.islower():
+ #               lower = True
+ #           elif char.isdigit():
+ #               digit = True
+ #           else:
+ #               special = True
 
-        if not (upper and lower and digit and special):
-            raise ValidationError('Password must contain at least one uppercase letter,
-                                   one lowercase letter, one digit,
-                                   and one special character.')
+ #       if not (upper and lower and digit and special):
+ #           raise ValidationError('Password must contain at least one uppercase letter,
+ #                                  one lowercase letter, one digit,
+ #                                  and one special character.')
 
 
 class LoginForm(FlaskForm):
