@@ -26,6 +26,29 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('Hey! This email is taken. Please change the email!')
 
+    def validate_password(self, password):
+        """Ensure that the password contains at least one uppercase letter,
+        one lowercase letter, one digit, and one special character."""
+        upper = False
+        lower = False
+        digit = False
+        special = False
+
+        for char in password.data:
+            if char.isupper():
+                upper = True
+            elif char.islower():
+                lower = True
+            elif char.isdigit():
+                digit = True
+            else:
+                special = True
+
+        if not (upper and lower and digit and special):
+            raise ValidationError('Password must contain at least one uppercase letter,
+                                   one lowercase letter, one digit,
+                                   and one special character.')
+
 
 class LoginForm(FlaskForm):
     """setting up login form"""
