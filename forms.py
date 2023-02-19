@@ -27,3 +27,12 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email = email.data).first()
         if user:
             raise ValidationError('Hey! This email is taken. Please change the email!')
+
+
+class LoginForm(FlaskForm):
+    """setting up login form"""
+
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember Me')
+    submit = SubmitField('Login')
