@@ -16,14 +16,12 @@ class RegistrationForm(FlaskForm):
 
     def validate_username(self, username):
         """validate user name wether the user name exists or not"""
-
         user = User.query.filter_by(username = username.data).first()
         if user:
             raise ValidationError('This user is existed. Please change username !')
 
     def validate_email(self, email):
         """validate email adress"""
-
         user = User.query.filter_by(email = email.data).first()
         if user:
             raise ValidationError('Hey! This email is taken. Please change the email!')
@@ -31,8 +29,18 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """setting up login form"""
-
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class InforForm(FlaskForm):
+    """setting up info form"""
+    name = StringField('Name', validators = [DataRequired()])
+    address = StringField('Address', validators = [DataRequired()])
+    # country = StringField('Country', validators = [DataRequired()])
+    city = StringField('City', validators = [DataRequired()])
+    postcode = StringField('Postcode', validators = [DataRequired()])
+    phone = StringField('Phone', validators = [DataRequired()])
+
