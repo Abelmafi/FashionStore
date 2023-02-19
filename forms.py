@@ -14,3 +14,16 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+    def validate_username(self, username):
+        """validate user name wether the user name exists or not"""
+
+        user = User.query.filter_by(username = username.data).first()
+        if user:
+            raise ValidationError('This user is existed. Please change username !')
+
+    def validate_email(self, email):
+        """validate email adress"""
+
+        user = User.query.filter_by(email = email.data).first()
+        if user:
+            raise ValidationError('Hey! This email is taken. Please change the email!')
