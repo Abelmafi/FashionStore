@@ -72,3 +72,26 @@ class InforForm(FlaskForm):
     postcode = StringField('Postcode', validators = [DataRequired()])
     phone = StringField('Phone', validators = [DataRequired()])
 
+
+class UserForm(FlaskForm):
+    """setting up user form"""
+
+    username = StringField('Username', validators=[DataRequired(), Length(min = 2, max = 20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    gender = StringField('Gender', validators=[DataRequired(), Length(min = 4, max = 10)])
+    birthday =  DateField('Birthday', format='%b %d %Y', validators=(Optional(),))
+    submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        """validate user name"""
+        if username.data != current_user.username:
+            user = User.query.filter_by(username = username.data).first()
+            if user:
+                raise ValidationError('This user is existed. Please change username !')
+
+    def validate_email(self, email):
+        """validate email"""
+        if email.data != current_user.email:
+            user = User.query.filter_by(email = email.data).first()
+            if user:
+                raise ValidationError('Hey! This email is taken. Please change the email!')
