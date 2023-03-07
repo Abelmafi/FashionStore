@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature">
+                    <i class="fa fa-truck"></i>
+                    <h2 class="feature-title">Free Shipping</h2>
+                    <p class="feature-description">Get free shipping on all orders over $50</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature">
+                    <i class="fa fa-gift"></i>
+                    <h2 class="feature-title">Gift Cards</h2>
+                    <p class="feature-description">Send a gift card to someone special</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature">
+                    <i class="fa fa-clock-o"></i>
+                    <h2 class="feature-title">24/7 Support</h2>
+                    <p class="feature-description">Contact us anytime for assistance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product section -->
+<section id="product1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='img/' + 'jacket.jpeg') }}" alt="Product Image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h2 class="product-title">Men's Stylish Shirt</h2>
+                    <p class="product-description">This shirt is made of high-quality fabric that is soft, breathable, and comfortable to wear. It features a stylish design that will make you look great no matter where you go.</p>
+                    <p class="product-price">$49.99</p>
+                    <div class="product-cta">
+                        <a href="#" class="btn">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="product2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h2 class="product-title">Women's Elegant Dress</h2>
+                    <p class="product-description">This elegant dress is perfect for any formal occasion. It features a flattering cut that will
+                    <p class="product-price">$79.99</p>
+                    <div class="product-cta">
+                        <a href="#" class="btn">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='img/' + 'dress.jpeg') }}" alt="Product Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="product1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='img/' + 'kids.jpeg') }}" alt="Product Image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h2 class="product-title">Kids' Stylish Jeans</h2>
+                    <p class="product-description">These stylish jeans are perfect for kids who want to look cool and fashionable. They are made of high-quality fabric that is durable and comfortable to wear. The design is both trendy and practical, with plenty of pockets for all of their belongings.</p>
+                    <p class="product-price">$29.99</p>
+                    <div class="product-cta">
+                        <a href="#" class="btn">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="page-add">
+</div>
+<!-- About Us section -->
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='img/' + 'about.png') }}" alt="About Image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="about-info">
+                    <h2 class="section-title">About Us</h2>
+                    <h3 class="subheading">Our Story</h3>
+                    <p class="about-text">We are a fashion brand that's passionate about delivering the latest trends and styles to our customers. Our journey began when our founder, Sarah, noticed a gap in the market for affordable yet stylish clothing.</p>
+                    <h3 class="subheading">Our Mission</h3>
+                    <p class="about-text">At our core, we believe that fashion should be accessible to everyone. That's why we're constantly working to create affordable and stylish clothing for all of our customers.</p>
+                    <div class="about-cta">
+                        <a href="#" class="btn">Learn More -></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="page-add">
+</div>
+<!-- Customer Testimonials section -->
+<section id="customer-testimonials">
+    <div class="container">
+        <h2 class="customer-testimonials-title">What Our Customers Say</h2>
+        <div class="customer-testimonials-carousel">
+            <div class="customer-testimonial">
+                <img src="customer1.jpg" alt="Customer 1">
+                <div class="quote">"</div>
+                <p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at magna at nisi aliquet pharetra. Pellentesque id dolor vel neque iaculis molestie vitae in velit. Aliquam ac libero nibh. Etiam luctus convallis ultricies.</p>
+                <h4>John Doe</h4>
+                <p class="author">CEO, Company Inc.</p>
+            </div>
+            <div class="customer-testimonial">
+                <img src="customer2.jpg" alt="Customer 2">
+                <div class="quote">"</div>
+                <p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at magna at nisi aliquet pharetra. Pellentesque id dolor vel neque iaculis molestie vitae in velit. Aliquam ac libero nibh. Etiam luctus convallis ultricies.</p>
+                <h4>Jane Smith</h4>
+                <p class="author">CTO, Company LLC.</p>
+            </div>
+            <div class="customer-testimonial">
+                <img src="customer3.jpg" alt="Customer 3">
+                <div class="quote">"</div>
+                <p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at magna at nisi aliquet pharetra. Pellentesque id dolor vel neque iaculis molestie vitae in velit. Aliquam ac libero nibh. Etiam luctus convallis ultricies.</p>
+                <h4>Bob Johnson</h4>
+                <p class="author">Founder, Company Ltd.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

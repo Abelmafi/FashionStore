@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Categories Page Section Begin -->
+<section>
+	<div class="breadcrumb-wrapper">
+		<div class="container">
+			<nav class="breadcrumb">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><span class="separator">&raquo;</span></li>
+					<li><a href="{{ url_for('category', category_name='All') }}">Category</a></li>
+					<li><span class="separator">&raquo;</span></li>
+					<li><a href="{{ url_for('category', category_name = category_name)}}">{{ category_name }}</a></li>
+				</ul>
+                <a href="/" class="home-link right"><span class="separetor" style="vertical-align: center;"><b>&#8592;</b></span>
+                    Back to Home</a>
+			</nav>
+		</div>
+	</div>
+
+</section>
+<section class="categories-page spad">
+	<div class="container">
+		<div class="categories-controls page-add">
+			<div class="categories-filter">
+				<div class="row">
+					<div class="col-lg-3">
+					</div>
+					<div class="col-lg-9">
+						<div class="cf-right">
+							<form action="{{ url_for('filter',  **filters) }}" method="GET">
+								{% for key, value in filters.items() %}
+								{% if key != 'sort' %}
+								<input type="hidden" name="{{ key }}" value="{{ value }}">
+								{% endif %}
+								{% endfor %}
+								<select class="sort" name ="sort" onchange="if(this.value != 0){ this.form.submit(); }">
+									<option value="">SORT BY</option>
+									<option value="price_asc">Price (Low to High)</option>
+									<option value="price_desc">Price (High to Low)</option>
+									<option value="name_asc">Name (A to Z)</option>
+									<option value="name_desc">Name (Z to A)</option>
+								</select>
+							</form>
+						</div>
+						<div class="cf-left">
+							<h5 style="line-height: 40px;">{{ totals }} Products found</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row page-add">
+				<div class="col-lg-3">
+					<div class="raw">
+						<div class="col-lg-12 p-0">
+                            <div class="filter-category-heading">
+                                <h5>CATEGORY</h5>
+                            </div>
+							<div class="page-breadcrumb">
+                                {% if category_name == 'All' %}
+                                <a class="active" href="{{ url_for('category', category_name = 'All')}}"><b>All</b></a>
+                                {% else %}
+                                <a href="{{ url_for('category', category_name = 'All')}}">All</a>
+                                {% endif %}
+								{% for categori in categories %}
+								{% if categori.name == category_name %}
+								<a class="active" href="{{ url_for('category', category_name = categori.name)}}"><b>
+										{{ categori.name }}</b></a>
+								{% else %}
+								<a href="{{ url_for('category', category_name = categori.name)}}">{{ categori.name }}</a>
+								{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="raw page-add">
+						<div class="col-lg-12 p-0">
+							<form class="product-filters" method="get" action="{{ url_for('filter', category_name = category_name) }}">
+                                <div class="filter-group-heading">
+                                    <h5>FILTER BY</h5>
+                                </div>
+								<div class="filter-group">
+									<div class="filter-heading"><span>TYPE</span></div>
+									<div class="filter-radios">
+										<label>
+											<input type="radio" name="product_type" value="top" {% if request.args.get('product_type') == 'top' %}selected{% endif %}>
+											Top Wear
+										</label>
+										<label>
+											<input type="radio" name="product_type" value="bottom" {% if request.args.get('product_type') == 'buttom' %}selected{% endif %}>
+											Bottom Wear
+										</label>
+										<label>
+											<input type="radio" name="product_type" value="foot" {% if request.args.get('product_type') == 'foot' %}selected{% endif %}>
+											Foot Wear
+										</label>
+									</div>
+								</div>
+
+								<div class="filter-group">
+									<div class="filter-heading">PRICE</div>
+									<div class="price-input">
+										<div class="field">
+											<span>Min</span>
+											<input type="number" name="minprice" class="input-min" value="{{ request.args.get('minprice', 0) }}">
+										</div>
+										<div class="separator">-</div>
+										<div class="field">
+											<span>Max</span>
+											<input type="number" name="maxprice" class="input-max" value="{{ request.args.get('maxprice', 8000) }}">
+										</div>
+									</div>
+									<div class="slider">
+										<div class="progress"></div>
+									</div>
+									<div class="range-input">
+										<input type="range" class="range-min" min="0" max="10000" value={{ request.args.get('minprice', 0) }} step="100">
+										<input type="range" class="range-max" min="0" max="10000" value={{ request.args.get('maxprice', 8000) }} step="100">
+									</div>
+								</div>
+
+								<div class="filter-group">
+									<div class="filter-heading">SIZE</div>
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-secondary">
+											<input type="radio" name="size" value="S"> S
+										</label>
+										<label class="btn btn-secondary">
+											<input type="radio" name="size" value="M"> M
+										</label>
+										<label class="btn btn-secondary">
+											<input type="radio" name="size" value="L"> L
+										</label>
+										<label class="btn btn-secondary">
+											<input type="radio" name="size" value="L"> XL
+										</label>
+										<label class="btn btn-secondary">
+											<input type="radio" name="size" value="L"> XXL
+										</label>
+									</div>
+								</div>
+
+								<div class="filter-actions">
+									<button type="submit" class="custom-btn btn-15">APPLY</button>
+									<button type="reset" class="custom-btn btn-15">CLEAR</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="row">
+						{% for product in products.items %}
+						<div class="col-lg-3 col-md-6">
+							<div class="single-product-item">
+								<figure><!-- {{ url_for('static', filename='img/icons/zoom-plus.png') }} -->
+									<img src="{{ url_for('static', filename='img/products/' + product.image_file) }}" alt="">
+									<div class="p-status">new</div>
+									<div class="hover-icon">
+										<a href="{{ url_for('static', filename='image/' + product.image_file) }}"
+										   class="pop-up"><img src="{{ url_for('static', filename='img/icons/zoom-plus.png') }}" alt=""></a>
+									</div>
+								</figure>
+								<div class="product-text">
+									<a href="{{ url_for('product', product_id = product.id)}}">
+										<h6> {{ product.title }}</h6>
+									</a>
+									<p>$ {{ product.price }}</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="raw page-add">
+						<nav aria-label="Product pagination">
+							<ul class="pagination justify-content-center">
+								{% if products.has_prev %}
+								<li class="page-item">
+									<a class="page-link" href="{{ url_for('filter', page=products.prev_num, **filters) }}" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</li>
+								{% else %}
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&laquo;</span>
+								</li>
+								{% endif %}
+
+								{% for num in products.iter_pages() %}
+								{% if num %}
+								{% if num == products.page %}
+								<li class="page-item active"><span class="page-link">{{ num }}</span></li>
+								{% else %}
+								<li class="page-item"><a class="page-link" href="{{ url_for('filter', page=num, **filters) }}">{{ num }}</a></li>
+								{% endif %}
+								{% else %}
+								<li class="page-item disabled"><span class="page-link">...</span></li>
+								{% endif %}
+								{% endfor %}
+
+								{% if products.has_next %}
+								<li class="page-item">
+									<a class="page-link" href="{{ url_for('filter', page=products.next_num, **filters) }}" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+										<span class="sr-only">Next</span>
+									</a>
+								</li>
+								{% else %}
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&raquo;</span>
+								</li>
+								{% endif %}
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="more-product">
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<!-- <a href="#" class="primary-btn">Load More</a> -->
+						</div>
+					</div>
+				</div>
+			</div>
+</section>
+<!-- Categories Page Section End -->
+
+{% endblock content %}
