@@ -87,7 +87,6 @@ login_manager.login_message_category = 'info'
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 cache.init_app(app)
 
-from fashionshop import routes
-from . import product_recommender
-from . import search
-~                     
+from app.api import routes
+from app.views import product_recommender
+from app.views import search                     

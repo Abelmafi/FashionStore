@@ -1,5 +1,5 @@
-from . import db, es
-from .models import Product
+from app import db, es
+from models import Product
 
 
 #def index_products():

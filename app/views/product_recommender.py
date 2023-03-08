@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from annoy import AnnoyIndex  # pip install annoy
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import OneHotEncoder
-from . import app, db, cache
-from .models import Category, Product, User_behavior
+from app import app, db, cache
+from models.models import Category, Product, User_behavior
 import numpy as np
 import math
 

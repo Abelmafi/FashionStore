@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
-from fashionshop.models import User
+from app.models.models import User
 from flask_login import current_user
 
 
@@ -13,8 +13,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(),
         length(min=8, message='Password must be at least 8 characters long'),
         Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])',
-            message='Password must contain at least one lowercase letter,
-            one uppercase letter, one digit, and one special character')])
+            message='Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character')])
 
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')

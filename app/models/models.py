@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """importing model libraries"""
-from models import db, login_manager, app
+from app import db, login_manager, app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask_login import UserMixin
@@ -14,9 +14,9 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     """Create User instance table inside database"""
-    id = db.Column(db.Integer, priery_key=True)
-    user_name = db.Column(db.string(20), unique=True, nullable=False)
-    email = db.Column(db.string(120), unique=True, nulable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable = False)
     birthday = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     gender = db.Column(db.String(10), nullable = False, default = 'Female')
@@ -93,3 +93,14 @@ class Infor(db.Model):
     total_price = db.Column(db.Integer, nullable = False)
     def __repr__(self):
         return ("Infor('{}','{}','{}')".format(self.name, self.address, self.phone))
+
+class User_behavior(db.Model):
+    __tablename__ = 'user_behavior'
+    """stores information about the user behavior,
+    such as the user ID, product ID, behavior type"""
+
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    behavior_type = db.Column(db.Text)
+    behavior_time = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

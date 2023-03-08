@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """RESTApi using flask application"""
 from flask import redirect, flash, render_template, url_for, request
-from fashionshop.forms import RegistrationForm,LoginForm, InforForm, UserForm
-from fashionshop import db, bcrypt, app, es
-from fashionshop.models import *
+from app.forms.forms import RegistrationForm,LoginForm, InforForm, UserForm
+from app import db, bcrypt, app, es
+from app.models import *
 from flask_login import current_user, login_user, login_required, logout_user
-from product_recommender import *
+from app.views.product_recommender import *
 from chatbot import bot
 
 
@@ -268,9 +268,10 @@ def checkout():
         session.pop('cart')
         session.pop('order')
         return redirect(url_for('home'))
-    return render_template('checkout.html', title = 'Check Out',
-            form = form,
-            total = total,
+    return render_template('checkout.html',
+                            title = 'Check Out',
+                            form = form,
+                            total = total,
                             subtotal = subtotal,
                             shipping = shipping)
 
