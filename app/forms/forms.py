@@ -10,10 +10,10 @@ class RegistrationForm(FlaskForm):
     """Create Registration flask form"""
     username = StringField('Username', validators=[DataRequired(), Length(min = 2, max = 20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(),
-        length(min=8, message='Password must be at least 8 characters long'),
-        Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])',
-            message='Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character')])
+    password = PasswordField('Password', validators=[DataRequired()])
+        # length(min=8, message='Password must be at least 8 characters long'),
+        # Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])',
+        #    message='Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character')])
 
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')

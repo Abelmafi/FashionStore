@@ -3,10 +3,10 @@
 from flask import redirect, flash, render_template, url_for, request
 from app.forms.forms import RegistrationForm,LoginForm, InforForm, UserForm
 from app import db, bcrypt, app, es
-from app.models import *
+from app.models.models import *
 from flask_login import current_user, login_user, login_required, logout_user
 from app.views.product_recommender import *
-from chatbot import bot
+# from app.chatbot import bot
 
 
 @app.route("/", methods=['GET', 'POST','PUT'])
@@ -99,6 +99,30 @@ def categories():
                             categories = categories,
                             totals = total_results)
 
+@app.route('/categories/<string:category_name>')
+def category(category_name='All'):
+    """Api that redirect to product category page"""
+
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 12))
+    categories = Category.query.all()
+
+    session['category_name'] = category_name
+    if category_name == 'All':
+        products = Product.query
+    else:
+        category = Category.query.filter_by(name = category_name).first()
+        products = Product.query.filter_by(type = category)
+
+    peginated_products = products.paginate(page, per_page)
+    total_results = peginated_products.total
+
+    return render_template('category.html', title = 'Categories',
+                            products = peginated_products,
+                            categories = categories,
+                            category_name = category_name,
+                            totals = total_results)
+
 @app.route('/category/filter/<string:category_name>', methods=['GET'])
 def filter(category_name):
     """Api that redirect to product category page"""
@@ -172,6 +196,24 @@ def filter(category_name):
                             filters = filters)
 
 
+@app.route('/product/<int:product_id>/new_comment', methods = ['POST','GET'])
+@login_required
+def new_comment(product_id):
+    """Api that redirect to comment page"""
+
+    content = request.args.get('content')
+    product = Product.query.get_or_404(product_id)
+    author = current_user
+    content_chatbot = str(bot.get_response(content))
+    comment = Comment(content = content, author = author,
+                      product = product,
+                      content_chatbot = content_chatbot)
+    db.session.add(comment)
+    db.session.commit()
+    flash('Adding new comment successfully!')
+    return redirect(url_for('product', product_id = product.id))
+
+
 @app.route('/product/<int:product_id>', methods=['POST','GET'])
 def product(product_id):
     """Api that redirect to product list page"""
@@ -217,22 +259,6 @@ def product(product_id):
                             comments = comments,
                             content_error = content_error)
 
-@app.route('/product/<int:product_id>/new_comment', methods = ['POST','GET'])
-@login_required
-def new_comment(product_id):
-    """Api that redirect to comment page"""
-
-    content = request.args.get('content')
-    product = Product.query.get_or_404(product_id)
-    author = current_user
-    content_chatbot = str(bot.get_response(content))
-    comment = Comment(content = content, author = author,
-                      product = product,
-                      content_chatbot = content_chatbot)
-    db.session.add(comment)
-    db.session.commit()
-    flash('Adding new comment successfully!')
-    return redirect(url_for('product', product_id = product.id))
 
 @app.route('/checkout', methods=['GET','POST'])
 def checkout():

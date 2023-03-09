@@ -4,7 +4,7 @@ from annoy import AnnoyIndex  # pip install annoy
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import OneHotEncoder
 from app import app, db, cache
-from models.models import Category, Product, User_behavior
+from app.models.models import Category, Product, User_behavior
 import numpy as np
 import math
 
@@ -113,7 +113,7 @@ def get_top_n_similar_products(user_feature_vector, product_features, n=9):
 
     return top_n_similar_products
 
-@cache.memoize(timeout=3600)
+# @cache.memoize(timeout=3600)
 def get_product_features():
     """Get the product features from the database"""
     product_features = {}

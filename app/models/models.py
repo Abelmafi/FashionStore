@@ -14,15 +14,19 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     """Create User instance table inside database"""
-    id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    __tablename__ = 'user'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(20), unique = True, nullable = False)
+    email = db.Column(db.String(120), unique = True, nullable = False)
     password = db.Column(db.String(60), nullable = False)
     birthday = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     gender = db.Column(db.String(10), nullable = False, default = 'Female')
     comments = db.relationship('Comment', backref='author', lazy = True)
+ 
     def __repr__(self):
-        return ("User('{}','{}')".format(self.username, self.email))
+        return f"User('{self.username}','{self.email}')"
 
 class Comment(db.Model):
     """Create new comment instance table and return comment title and date posted"""
@@ -44,21 +48,24 @@ class Comment(db.Model):
         return ("Comment('{}','{}')".format(self.title, self.date_posted))
 
 class Product(db.Model):
-    """Create product instance table and return information about it"""
-
-    id = db.Column(db.Integer, primary_key = True)
+    __tablename__ = 'product'
+    # __searchable__ = ['title','description']
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     title = db.Column(db.String(100), nullable = False)
     date_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     price = db.Column(db.Integer, nullable = False)
     description = db.Column(db.Text, nullable=False)
     image_file = db.Column(db.String(), nullable = True, default='default.jpg')
+    product_size = db.Column(db.String(50))
+    product_type = db.Column(db.String(50))
+    type_detail = db.Column(db.String(50))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable = False)
     cartitems = db.relationship('CartItem', backref='Product', lazy = True)
     comments = db.relationship('Comment', backref='product', lazy = True)
+    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __repr__(self):
-        return ("Product('{}','{}','{}')".format(self.title,
-                                                 self.price, self.image_file))
+        return f"Product('{self.title}','{self.price}','{self.image_file}')"
 
 class Category(db.Model):
     """Create product category instance table and return informaion about category"""
